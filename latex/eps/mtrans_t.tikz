@@ -1,0 +1,114 @@
+\begin{tikzpicture}[scale=.6]
+
+\begin{axis}[%
+name=main plot,%
+axis on top,%
+width=1.5in,%
+scale only axis,%
+xmin=0, xmax=2.514,%
+ymin=0, ymax=2.514,%
+ticks=none%
+]
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,0) (0,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,0) (0.279333,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,0) (0.558667,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,0) (0.838,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,0) (1.11733,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,0) (1.39667,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,0) (1.676,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,0) (1.95533,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,0) (2.23467,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,0) (2.514,0) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,0.279333) (0,0.279333) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,0.279333) (0.279411,0.281576) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,0.279333) (0.558426,0.337635) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,0.279333) (0.840192,0.314578) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,0.279333) (1.11738,0.296516) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,0.279333) (1.39499,0.299243) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,0.279333) (1.67613,0.286073) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,0.279333) (1.95697,0.280668) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,0.279333) (2.23443,0.279966) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,0.279333) (2.514,0.279333) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,0.558667) (0,0.558667) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,0.558667) (0.279096,0.617009) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,0.558667) (0.558261,0.68472) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,0.558667) (0.842765,0.724556) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,0.558667) (1.11741,0.662113) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,0.558667) (1.39746,0.645082) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,0.558667) (1.67414,0.610122) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,0.558667) (1.95408,0.600585) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,0.558667) (2.23606,0.559774) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,0.558667) (2.514,0.558667) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,0.838) (0,0.838) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,0.838) (0.278224,0.890743) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,0.838) (0.55513,0.976672) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,0.838) (0.835746,1.0077) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,0.838) (1.10431,0.993482) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,0.838) (1.38263,0.96421) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,0.838) (1.66538,0.938617) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,0.838) (1.95321,0.890148) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,0.838) (2.23374,0.848051) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,0.838) (2.514,0.838) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,1.11733) (0,1.11733) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,1.11733) (0.277552,1.14545) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,1.11733) (0.54399,1.21598) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,1.11733) (0.814536,1.27541) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,1.11733) (1.10812,1.25959) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,1.11733) (1.3904,1.25713) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,1.11733) (1.67218,1.238) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,1.11733) (1.97148,1.18296) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,1.11733) (2.23231,1.1388) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,1.11733) (2.514,1.11733) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,1.39667) (0,1.39667) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,1.39667) (0.277781,1.41807) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,1.39667) (0.543756,1.47643) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,1.39667) (0.830724,1.52827) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,1.39667) (1.11347,1.54322) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,1.39667) (1.39235,1.5423) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,1.39667) (1.67855,1.52349) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,1.39667) (1.97219,1.46123) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,1.39667) (2.23324,1.41671) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,1.39667) (2.514,1.39667) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,1.676) (0,1.676) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,1.676) (0.279002,1.68477) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,1.676) (0.556058,1.71489) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,1.676) (0.833382,1.7641) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,1.676) (1.11326,1.80515) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,1.676) (1.39258,1.80535) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,1.676) (1.67094,1.76413) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,1.676) (1.95229,1.71457) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,1.676) (2.23458,1.68199) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,1.676) (2.514,1.676) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,1.95533) (0,1.95533) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,1.95533) (0.27993,1.95455) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,1.95533) (0.558763,1.96232) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,1.95533) (0.835408,1.99323) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,1.95533) (1.11165,2.02835) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,1.95533) (1.39096,2.0287) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,1.95533) (1.67283,1.99342) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,1.95533) (1.95485,1.96231) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,1.95533) (2.23488,1.95435) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,1.95533) (2.514,1.95533) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,2.23467) (0,2.23467) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,2.23467) (0.279645,2.23522) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,2.23467) (0.559081,2.2337) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,2.23467) (0.837657,2.23735) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,2.23467) (1.11588,2.2527) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,2.23467) (1.39522,2.25303) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,2.23467) (1.67553,2.23723) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,2.23467) (1.95543,2.23358) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,2.23467) (2.23495,2.23525) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,2.23467) (2.514,2.23467) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0,2.514) (0,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.279333,2.514) (0.279333,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.558667,2.514) (0.558667,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (0.838,2.514) (0.838,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.11733,2.514) (1.11733,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.39667,2.514) (1.39667,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.676,2.514) (1.676,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (1.95533,2.514) (1.95533,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.23467,2.514) (2.23467,2.514) };
+\addplot [->,color=black,solid,line width=0.5pt] coordinates{ (2.514,2.514) (2.514,2.514) };
+\end{axis}
+
+\end{tikzpicture}

@@ -1,0 +1,1107 @@
+<!doctype html>
+<html lang="en">
+  <style>
+    h2 text {
+      margin-bottom: 1em !important
+    }
+    .mathequation {
+      margin-bottom: 1em !important;
+      margin-top: 1em !important;
+    }
+    .background {
+      fill: none;
+    }
+
+    #states {
+      fill: #ccc;
+    }
+
+    #states .active {
+      fill: orange;
+    }
+    .reference {
+      font-size: 18pt !important;
+      line-height: normal !important;
+      text-align: left !important;
+    }
+    .axis path, .axis line {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.0px;
+      shape-rendering: crispEdges;
+      font-size: 10px;
+    }
+    .axis text {
+      font: 11px monospace;
+      stroke: #fff;
+    }
+    .lineplot {
+      fill: none;
+      stroke: #99f;
+      stroke-width: 2.0px;
+    }
+    .darklineplot {
+      fill: none;
+      stroke: #99f;
+      stroke-width: 2.0px;
+      stroke-opacity: 0.25;
+    }
+    .innovplot {
+      fill: none;
+      stroke: #f99;
+      stroke-width: 2.0px;
+    }
+    .linepoint {
+      fill: #99f;
+      stroke: none;
+    }
+    .darklinepoint {
+      fill: #99f;
+      stroke: none;
+      opacity: 0.25;
+    }
+
+    #state-borders {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.5px;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      pointer-events: none;
+    }
+
+    #mapdataassim .mapgrid {
+      fill: none;
+      stroke: #00f;
+      stroke-width: 0.75px;
+    }
+    #mapdataassim .datapoint {
+      fill: #f00;
+      stroke: none;
+    }
+    .border {
+      fill: #fff;
+      stroke: none;
+      stroke-width: 1px;
+    }
+
+    .lineX {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+
+    .lineXArea {
+      fill: steelblue;
+      stroke: none;
+    }
+
+    .lineY {
+      fill: none;
+      stroke: darkred;
+      stroke-width: 1.5px;
+      opacity: 0.5;
+    }
+
+    .lineYArea {
+      fill: darkred;
+      stroke: none;
+    }
+
+    .lineZ {
+      fill: none;
+      stroke: darkgreen;
+      stroke-width: 1.5px;
+      opacity: 0.25;
+    }
+
+    .lineZArea {
+      fill: darkgreen;
+      stroke: none;
+    }
+
+    .mark {
+      fill: none;
+      stroke: darkred;
+    }
+    svg.legend rect{
+      fill: white;
+      stroke: black;
+      opacity: 0.8;
+    }
+
+  </style>
+  <style>
+    div#enkfFirePlot rect.plotWindowRect {
+      fill: 'red';
+      stroke: none;
+    }
+    g .fpts {
+      fill: black;
+      stroke: none;
+      opacity: 0.5;
+    }
+    g path.flines {
+      fill: none;
+      stroke: black;
+      stroke-width: 1.5px;
+      opacity: 0.5;
+    }
+    g path.mouseLine {
+      fill: none;
+      stroke: red;
+      stroke-width: 1.0px;
+      opacity: 0.5;
+    }
+    g path.mouseLine0 {
+      fill: none;
+      stroke: red;
+      stroke-width: 1.0px;
+      opacity: 0.5;
+    }
+    path.opts {
+      fill: red;
+      stroke: none;
+      opacity: 0.5;
+    }
+    path.olines {
+      fill: none;
+      stroke: red;
+      stroke-width: 1.5px;
+      opacity: 0.5;
+    }
+    .analysis circle.ensemble {
+      fill: blue;
+      stroke: none;
+      opacity: 0.5;
+    }
+    .analysis path.ensemble {
+      fill: none;
+      stroke: blue;
+      stroke-width: 1.5px;
+      opacity: 0.5;
+    }
+    .errbar {
+      fill: red;
+      stroke: none;
+      fill-opacity: 0.1;
+    }
+    div#enkfFirePlot svg text {
+      fill: white;
+    }
+    div#enkfFirePlot0 svg text {
+      fill: white;
+    }
+  </style>
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Kitware presentation</title>
+
+    <meta name="description" content="">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src ="numeric-1.2.6.min.js"></script>
+    <script type="text/javascript" src ="enkf.js"></script>
+    <script type="text/javascript" src ="d3/d3.min.js"></script>
+    <script type='text/javascript' src='d3legend.js'></script>
+    <script type="text/javascript" src ="topojson/topojson.js"></script>
+    <script type='text/javascript' src ='three.min.js'></script>
+    <script type='text/javascript' src ='TrackballControls.js'></script>
+    <script type='text/javascript' src ='knockout.js'></script>
+    <script type='text/javascript' src ='vis3d.js'></script>
+    <script type='text/javascript' src ='model.js'></script>
+    <script type='text/javascript' src ='plotlib.js'></script>
+    <script type='text/javascript' src='fire2.js'></script>
+    <script type='text/javascript' src='fire3.js'></script>
+    <script type="text/javascript" src ="main.js"></script>
+    <style>
+      table 
+      {
+        width:100%;
+      }
+      td.tablecenter
+      {
+        /*text-align:center !important;*/
+        padding-left:2em !important;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <!--h1></h1-->
+          <h2>Jonathan Beezley</h2>
+          <p><small>jon.beezley@gmail.com</small></p>
+          <a href='http://kitware-jbeezley.rhcloud.com'>http://kitware-jbeezley.rhcloud.com</a>
+          <!--p>
+          <small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+          </p-->
+        </section>
+        <section>
+          <h2>Education</h2>
+          <table>
+            <tr>
+              <td>Ph.D.</td> <td>Applied Mathematics</td><td>2009</td>
+            </tr>
+            <tr>
+              <td></td><td class="tablecenter">University of Colorado Denver</td><td></td>
+            </tr>
+            <tr>
+              <td>M.S.</td> <td>Applied Mathematics</td><td>2006</td> 
+            </tr>
+            <tr>
+              <td></td><td class="tablecenter">University of Colorado Denver</td><td></td>
+            </tr>
+            <tr>
+              <td>B.S.</td> <td>Physics</td><td>2001</td> 
+            </tr>
+            <tr>
+              <td></td><td class="tablecenter">University of Nebraska Lincoln</td><td></td>
+            </tr>
+          </table>
+        </section>
+        <section>
+          <h2>Work history</h2>
+          <table>
+            <tr>
+              <td>CERFACS/M&eacute;t&eacute;o-France</td><td>2012-2013</td>
+            </tr>
+            <tr>
+              <td class="tablecenter" colspan="2">Postdoctoral researcher</td>
+            </tr>
+            <tr>
+              <td>Weather-It-Is</td><td>2011-2012</td>
+            </tr>
+            <tr>
+              <td class="tablecenter" colspan="2">Software consultant</td>
+            </tr>
+            <tr>
+              <td>University of Colorado</td><td>2009-2012</td>
+            </tr>
+            <tr>
+              <td class="tablecenter" colspan="2">Assistant research professor</td>
+            </tr>
+            <tr>
+              <td>University of Colorado</td><td>2005-2009</td>
+            </tr>
+            <tr>
+              <td class="tablecenter" colspan="2">Research assistant</td>
+            </tr>
+          </table>
+        </section>
+        <section>
+          <section id='fireModelingSection'>
+            <h2>Fire Modeling</h2>
+            <video id='firefluxVideo' width='800' height='450' controls loop data-autoplay><source src='img/fireflux.mp4' type='video/mp4'></video>
+          </section>
+          <section>
+            <h2>PDE fire model</h2>
+            <img style='border:5px solid white;border-radius:5px' src='img/pdefire.jpg' width='300' height='150'>
+            <!--p style='font-size:18pt'>$\begin{array}{rcl}\frac{\partial T}{\partial t} &amp;= &amp;\nabla\cdot\left(  k\nabla T\right)
+            -c (\overrightarrow{v}+\gamma\nabla z)\cdot\nabla T+AS\,r\left(
+            T\right)  -C\left(  T-T_\mathrm{a}\right) \\
+            \frac{\partial S}{\partial t} &amp; = &amp; -S\,r(T)
+            \end{array}$</p-->
+            <div style='font-size:18pt' class='fragment' data-fragment-index='1'>
+              <p>$\frac{\partial T}{\partial t} = \nabla\cdot\left(  k\nabla T\right)
+                -c (\overrightarrow{v}+\gamma\nabla z)\cdot\nabla T+AS\,r\left(
+                T\right)  -C\left(  T-T_\mathrm{a}\right)$</p>
+              <p>$\frac{\partial S}{\partial t} = -S\,r(T)$</p>
+            </div>
+            <table>
+              <tr>
+                <td style='vertical-align:middle' width='65%'><ul style='font-size:24pt'>
+                    <li class='fragment' data-fragment-index='1'>Non-linear reaction-diffusion equation</li>
+                    <li class='fragment' data-fragment-index='2'>Parameters tuned to real fire data</li>
+                    <li class='fragment' data-fragment-index='3'>Programmed in Fortran 77, linked with data assimilation code, and MPI parallelized</li>
+                </ul></td>
+                <td><img class='fragment' data-fragment-index='2' style='border:5px solid white;border-radius:5px;background-color:white' src='img/tp.png' width='275' height='200'></td>
+              </tr>
+            </table>
+            <div class='reference'>Mandel et al.,  A wildland fire model with data assimilation.
+              <span style='font-style:italic'>Mathematics and Computers in Simulation</span>, 79:584&#8211;606, 2008.</div>
+          </section>
+          <section>
+            <h2>Semi-emperical fire model (SFIRE)</h2>
+            <video class='fragment' data-fragment-index='1' id='lfnVideo' width='400' height='200' controls loop data-autoplay><source src='img/lfn.mp4' type='video/mp4'></video>
+            <div style='font-size:24pt;margin-bottom:2em;margin-top:1em'>
+              <ul>
+                <li class='fragment' data-fragment-index='1'>Burning area determined by a decreasing <span style='font-style:italic'>level-set function</span>.</li>
+                <li class='fragment' data-fragment-index='2'>Spread rate and heat output determined emperically from real data.</li>
+                <li class='fragment' data-fragemnt-index='3'>Programmed in Fortran 90 with MPI and OpenMP parallelism.</li>
+              </ul>
+            </div>
+            <div style='font-size:18pt'>Mandel, et al. Data assimilation for wildland fires: Ensemble Kalman filters in coupled atmosphere-surface models.
+              <span style='font-style:italic'>IEEE Control Systems Magazine</span>, 29:47&#8211;65, June 2009.
+            </div>
+          </section>
+          <section>
+            <h2>SFIRE-WRF coupling</h2>
+            <table>
+              <tr>
+                <td style='vertical-align:top'><img style='border:5px;border-radius:5px;background-color:white;border:5px solid white' src='img/sfirecoupling.png' width='430' height='340'></td>
+                <td style='vertical-align:top;text-align:center'>
+                  <img style='border:0px' src='img/sfire3d.png' width='500' height='225'>
+                  <div style='font-size:24pt'>
+                    <ul>
+                      <li>SFIRE receives wind from WRF</li>
+                      <li>SFIRE returns heat, moisture, and smoke emissions to WRF</li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <ul style='font-size:24pt'>
+            </ul>
+            <div class='reference'>Mandel, Beezley, and Kochanski. Coupled atmosphere-wildland fire modeling with WRF 3.3 and SFIRE 2011.
+              <span style='font-style:italic'>Geoscientific Model Development</span>, 4:591&#8211;610, 2011.
+            </div>
+          </section>
+          <section>
+            <h2>Model validation</h2>
+            <table style='margin-bottom:1em;margin-top:1em'>
+              <tr style="font-size:24pt">
+                <td style='text-align:center'>Santa Ana fires of 2007</td>
+                <td style='text-align:center'>Fireflux experiment</td>
+              </tr>
+              <tr>
+                <td>
+                  <img style='border:0px' src='img/santa_anna_perimeter.png' width='450' height='225'>
+                </td>
+                <td>
+                  <img style='border:0px' src='img/firefluxValidation.png' width='450' height='225'>
+                </td>
+              </tr>
+            </table>
+            <div class='reference'>Kochanski, et al. Real time simulation of 2007 Santa Ana fires. 
+              <span style='font-style:italic'>Forest Ecology and Management</span>, 15:136&#8211;149, 2013.
+            </div>
+            <div class='reference'>Kochanski, et al. Evaluation of WRF-SFIRE performance with field observations from the FireFlux experiment.
+              <span style='font-style:italic'>Geoscientific Model Development</span>, 6:1109&#8211;1126, 2013.
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Data assimilation</h2>
+            <img style='border:5px solid white;background:none;border-radius:5px' src='img/dabox.png' width='800' height='425'>
+          </section>
+          <section>
+            <h2>Predictor-corrector filters</h2>
+            <table style='margin-bottom:1em;margin-top:1em'>
+              <tr>
+                <td><img style='border:5px solid white;border-radius:5px' src='img/sodefilter.png' width='450' height='370'></td>
+                <td style='font-size:22pt;vertical-align:middle'>
+                  <ul>
+                    <li class='fragment'>Two step data assimilation method</li>
+                    <li class='fragment'>Combines features of particle and ensemble Kalman filters</li>
+                    <li class='fragment'>Improves Kalman filter with non-Gaussian error distributions</li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+            <div class='reference'>Mandel and Beezley. An ensemble Kalman-particle predictor-corrector filter for non-gaussian data assimilation.
+              <span style='font-style:italic'>ICCS 2009</span> 5545:470&#8211;478, 2009.</div>
+          </section>
+          <section>
+            <h2>Spectral Ensemble Kalman filters</h2>
+            <table style='margin-top:2em;margin-bottom:2em;font-size:20pt'>
+              <tr>
+                <td style='text-align:center'>Large sample</td>
+                <td style='text-align:center'>Small sample</td>
+                <td style='text-align:center'>FFT</td>
+                <td style='text-align:center'>Wavelet</td>
+              </tr>
+              <tr>
+                <td style='border-right:2pt solid white;text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/2v_large_sample_cov.png' height='190' width='187'></td>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/2v_sample_cov.png' height='190' width='187'></td>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/2v_fft_cov.png' height='190' width='187'></td>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/2v_wavelet_cov.png' height='190' width='187'></td>
+              </tr>
+            </table>
+            <div style='margin-bottom:2em;font-size:22pt'>
+              New methods for estimating sampling statistics for ensemble methods
+            </div>
+            <div class='reference'>Beezley, Mandel, and Cobb. Wavelet ensemble Kalman filters. 
+              <span style='font-style:italic'>IDAACS 2011</span>, 2:514&#8211;518, 2011.
+            </div>
+          </section>
+          <section>
+            <h2>Ensemble Kalman filter convergence</h2>
+            <p style='margin-top:2em;margin-bottom:2em'>Mathematical proof that the Kalman filter converges 
+              in $L^p$ to the Ensemble Kalman filter as the sample size increases.</p>
+            <div class='reference'>Mandel, Cobb, and Beezley. On the convergence of the ensemble Kalman filter. 
+              <span style='font-style:italic'>Applications of Mathematics</span>, 56:533&#8211;541, 2011.
+            </div>
+          </section>
+          <section>
+            <h2>Morphing Ensemble Kalman filter</h2>
+            <table style='margin-top:1em;margin-bottom:1em;font-size:20pt'>
+              <tr>
+                <td style='text-align:center'>Forecast</td>
+                <td style='text-align:center'>Observation</td>
+                <td style='text-align:center'>EnKF</td>
+                <td style='text-align:center'>Morphing</td>
+              </tr>
+              <tr>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/wrf_comp.jpg' height='180' width='200'></td>
+                <td style='border-right:2pt solid white;text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/wrf_obs.jpg' height='180' width='200'></td>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/wrf_std.jpg' height='180' width='200'></td>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/wrf_post.jpg' height='180' width='200'></td>
+              </tr>
+            </table>
+            <ul style='margin-bottom:1em;font-size:22pt'>
+              <li class='fragment'>Uses image registration and morphing to transform a model into a spatial representation.</li>
+              <li class='fragment'>Corrects for spatial errors of coherent features.</li>
+              <li class='fragment'>Released as a Fortran 90 library acting on NetCDF data files.</li>
+            </ul>
+            <div class='reference'>Beezley and Mandel. Morphing ensemble Kalman filters.
+              <span style='font-style:italic'>Tellus</span>, 60A:131&#8211;140, 2008.
+            </div>
+          </section>
+          <section>
+            <h2>Spatial Epidemic Modeling</h2>
+            <table style='margin-top:1em;margin-bottom:1em;font-size:20pt'>
+              <tr>
+                <td style='text-align:center'>Susceptible</td>
+                <td style='text-align:center'>Infected</td>
+                <td style='text-align:center'>Removed</td>
+              </tr>
+              <tr>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/susceptible.png' height='230' width='260'></td>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/infected.png' height='230' width='260'></td>
+                <td style='text-align:center'><img style='border:5px solid white;border-radius:5px' src='img/dead.png' height='230' width='260'></td>
+              </tr>
+            </table>
+            <p style='margin-bottom:1em;font-size:22pt'>
+              Morphing and spectral data assimilation techniques applied to spatial epidemic models for NIH research grant.
+            </p>
+            <div class='reference'>Krishnamurthy, et al. Bayesian Tracking of Emerging Epidemics Using Data Assimilation Methods.
+              <span style='font-style:italic'>Journal of Spatial and Spatio-temporal Epidemiology</span>, to appear 2013.
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Operational fire forecasting</h2>
+            <img style='border:5px solid white;background:none;border-radius:5px' src='img/dascheme.png' width='725' height='500'>
+          </section>
+          <section>
+            <h2>Data preprocessing for WRF integration</h2>
+            <table style='margin-top:0em'>
+              <tr>
+                <td style='text-align:center'><img style='border:0px' src='img/fire_d06.png' height='250' width='370'></td>
+                <td style='text-align:center'><img style='border:5px solid white' src='img/megafuel.png' height='240' width='360'></td>
+              </tr>
+            </table>
+            <div style='font-size:22pt'>
+              <p style='text-align:left'>Utilities written in Python and C:</p>
+              <ul>
+                <li class='fragment'>Download data from USGS servers automatically</li>
+                <li class='fragment'>Convert geo-tagged TIFF files to WRF format</li>
+                <li class='fragment'>Plugin support for GeoTIFF data directly in WRF preprocessor</li>
+              </ul>
+            </div>
+            <div class='reference' style='margin-top:0.5em'>Beezley, et al. Integrating high-resolution static data into WRF for real fire simulations
+              <span style='font-style:italic'>Ninth Symposium on Fire and Forest Meteorology</span> 2011. 
+            </div>
+          </section>
+          <section>
+            <h2>WRF visualization in Google Earth</h2>
+            <img style='border:0px' src='img/google_earth_SDF.png' height='518' width='800'> 
+            <div class='reference'>Beezley, et al. Data management and analysis with WRF and SFIRE.
+              <span style='font-style:italic'>IGARSS 2012</span>, 5274&#8211;5277, 2012.
+            </div>
+          </section>
+          <section>
+            <h2>Israeli fire forecasting</h2>
+            <img style='border:5px solid white; border-radius: 5px' src='img/ignite_fire.jpg' width='1000' height='484'>
+            <div class='reference'>Mandel, et al. New features in WRF-SFIRE and the wildfire forecasting and danger system in Israel. 
+              <span style='font-style:italic'>Natural Hazards and Earth System Sciences</span>, submitted 2013.
+            </div>
+          </section>
+        </section>
+        <section>
+          <h2>Overview of prior work</h2>
+          <ul style='font-size:20pt;margin-top:1em;margin-bottom:1em'>
+            <li class='fragment' data-fragment-index='1'>Maintenance of software repositories</li>
+            <ul class='fragment' data-fragment-index='1'>
+              <li>Regression testing</li>
+              <li>Scalability analysis</li>
+              <li>Portability and dependencies</li>
+            </ul>
+            <li class='fragment' data-fragment-index='2'>Administration of small clusters and network servers</li>
+            <li class='fragment' data-fragment-index='3'>Visualization and numerical experiments</li>
+            <li class='fragment' data-fragment-index='4'>Integration with recent tools and libraries</li>
+          </ul>
+          <div class='fragment' data-fragment-index='5'>The "computer scientist" of the group.</div>
+        </section>
+        <section>
+          <h2>What is data assimilation?</h2>
+          <p class='fragment' data-fragment-index='1' style='margin-bottom:2em'>Invented for atmospheric forecasting</p>
+          <table>
+            <tr>
+              <td style='vertical-align:middle'>
+                <ul>
+                  <li class='fragment' data-fragment-index='2'>Numeric forecast defined on a grid</li>
+                  <li class='fragment' data-fragment-index='3'>Data is given at arbitrary points in the domain (weather stations)</li>
+                </ul>
+              </td>
+              <td>
+                <div id="mapdataassim"></div>
+              </td>
+            </tr>
+          </table>
+          <p style="margin-top:2em" class='fragment' data-fragemnt-index='4'>What is the best way to add this information to the forecast?</p>
+          <script type="text/javascript">
+            drawMapAssim();
+          </script>
+        </section>
+        <section>
+          <h2>Optimal Interpolation</h2>
+          <div style="font-size:26pt;margin-bottom:2em">
+            <span>Consider some modeled process </span>
+            <span style="font:monospace;color:#99f">$V(x)$</span>
+            <span> and a single point of data </span>
+            <span style="font:monospace;color:#f00">$y$</span>
+          </div>
+          <table>
+            <tr>
+              <td style='vertical-align:middle'>
+                <div style='font-size:22pt'>
+                  <div class='fragment' data-fragment-index='1'>
+                    <span>Define </span>
+                    <span style='color:#e99'>$H$</span>
+                    <span>:</span>
+                    <ul style='font-size:20pt'>
+                      <li>
+                        Interpolates from the model grid to the observation
+                      </li>
+                      <li>
+                        <span>Often called the </span>
+                        <span style='font-style:italic;font-size:22pt'>observation function</span>
+                        <span> or the </span>
+                        <span style='font-style:italic;font-size:22pt'>forward operator</span>
+                      </li>
+                      <li>
+                        <span>The </span>
+                        <span style='font-style:italic;font-size:22pt'>innovation, </span>
+                        <span> $y - H(x)$, </span>
+                        <span>represents the difference between prediction and observation</span> 
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+              <td style='vertical-align:middle'>
+                <div id='oigraph'></div>
+              </td>
+            </tr>
+          </table>
+          <div style='margin-top:2em' class='fragment' data-fragment-index="2">
+            Now we need to modify the model to account for the difference from the observation.
+          </div>
+          <script type='text/javascript'>
+            drawOptimalInterp();
+          </script>
+        </section>
+        <section style="font-size:26pt">
+          <h2>Optimal Interpolation</h2>
+          <div>The model is corrected using an inverse interpolation operator $K$:</div>
+          <div class="mathequation">$V\leftarrow V + K\left(y- H(V)\right)$</div>
+          <table class='fragment' data-fragment-index='1'>
+            <tr style='font-size:22pt'>
+              <td style='vertical-align:middle'>
+                <ul>
+                  <li style='margin-bottom:2em'>The operator $K$ projects the innovation onto the model grid.</li>
+                  <li>The shape and width is chosen emperically by the statistical properties of the field.</li>
+                </ul>
+              </td>
+              <td>
+                <div id='oiinvgraph'></div>
+                <div>
+                  <select id='oiinterpshape' name='shapetypes' value='None'>
+                    <option value='None'></option>
+                    <option value='Gaussian'>Gaussian</option>
+                    <option value='Exponential'>Exponential</option>
+                    <option value='Hat'>Hat</option>
+                  </select>
+                  <input id='oiinterpsigma' type='range' min='0' max='5' value='1' step='0.01' style='width:325px'>
+                </div>
+          </td></tr></table>
+          <script type='text/javascript'>
+            drawOptimalInvInterp();
+          </script>
+        </section>
+        <section>
+          <h2>Observations and Uncertainties</h2>
+          <ul>
+            <li class='fragment' style='margin-bottom:1em'>Observation functions are often more complicated and cannot be inverted uniquely
+              <ul style="font-size:22pt">
+                <li class='fragment'>Dependence on multiple model variables (rain)</li>
+                <li class='fragment'>Complicated non-linear observation functions (satellite radiances)</li>
+                <li class='fragment'>Non-local effects (airborn fire imagery)</li>
+            </ul></li>
+            <li class='fragment' style='margin-bottom:1em'>The data itself has errors and multiple data points can be contradictory.</li>
+            <li class='fragment'>Algorithms must balance between the prediction and the data.
+              <ul><li>Typically the best solution is between the two.</li></ul>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Data Assimilation Formulation</h2>
+          <p style='font-size:24pt;margin-bottom:1em'>Assuming model error covariance $Q$ and data error covariance $R$:</p>
+          <table style='border-collapse: collapse;font-size:24pt'>
+            <tr>
+              <td style='text-align:center; border-right: 1px solid white; width: 50%; padding-right: 1em; padding-bottom: 1em'>Least Squares</td>
+              <td style='text-align:center; width 50%; margin-left: 1em; padding-left: 1em; padding-bottom: 1em'>Bayesian</td>
+            </tr>
+            <tr style='font-size:20pt'>
+              <td style='border-right: 1px solid white; width: 50%; padding-right: 1em; vertical-align:middle'>
+                <ul class='fragment'>
+                  <li>Does not necessarily find the most likely solution</li>
+                  <li>Minimizes: $\Vert V - V^a \Vert^2_{Q^{-1}} + \Vert y - H(V^a)\Vert^2_{R^{-1}}$</li>
+                  <li>Valid for most error distributions</li>
+                  <li>Used in variational techniques like 3DVAR with explicit optimization</li>
+                </ul>
+              </td>
+              <td style='width 50%; padding-left: 1em; vertical-align: middle'>
+                <ul class='fragment'>
+                  <li>Maximizes: $\rho\left(V^a\right) = \rho\left(V~|~y\right) \propto \rho\left(V\right)\rho\left(y~|~V \right)$</li>
+                  <li>Finds most likely solution</li>
+                  <li>Intractable for general solutions (particle filter)</li>
+                  <li>Usually assume Gaussian error (Kalman filter)</li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+          <p class='fragment' style='font-size:24pt;margin-top:1em'>In the case of Gaussian errors, both approaches are equivalent.</p>
+        </section>
+        <section>
+          <section>
+            <h2>Kalman filter</h2>
+            <p>Exact solution of the Bayesian problem</p>
+            <div class='fragment'>
+              <div style='text-align:left'>Assumes:</div>
+              <div style='font-size:22pt'>
+                <ul>
+                  <li>Gaussian error distributions (representable by a mean and covariance)</li>
+                  <li>Linear observation function ( $H$ )</li>
+                  <li>Linear model ( $M$ )</li>
+                </ul>
+              </div>
+            </div>
+            <div class='fragment' style='text-align:left;margin-top:1em'>Two step process:</div>
+            <div style='font-size:22pt;text-align:left'>
+              <div class='fragment'>
+                <ul><li>Forecast:</li></ul>
+                <div style='text-align:center'>$\begin{array}{rcl}V &amp;\leftarrow &amp; MV\\
+                  Q &amp;\leftarrow &amp; MQM^T\end{array}$</div>
+              </div>
+              <div class='fragment'>
+                <ul><li>Analysis:</li></ul>
+                <div style='text-align:center'>$\left.\begin{array}{rcl}V &amp;\leftarrow &amp;V + K\left(y-HV\right)\\
+                  Q &amp;\leftarrow &amp;\left(I-KH\right)Q\end{array}\right\}\qquad K = QH^T\left(HQH^T + R\right)^{-1}$</div>
+              </div>
+            </div>
+          </section>
+          <section id='kalmanPlotSection'>
+            <h2>Scalar Kalman Filter</h2>
+            <table>
+              <tr>
+                <td>
+                  <div id='kalmanPlot'>
+                  </div>
+                  <div id='dataControl'>
+                    <table style='font-size: 22pt'>
+                      <tr>
+                        <td style='text-align: center'>Observation mean</td>
+                        <td style='text-align: center'>Observation error</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input id='obsMeanSlider' type='range' min='-3' max='3' step='0.05' style='width:100%'>
+                        </td>
+                        <td>
+                          <input id='obsStdSlider' type='range' min='0.2' max='2.0' step='0.05' style='width:100%'>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan='2' style='text-align: center'>
+                          Forecast Error
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan='2'>
+                          <input id='foreStdSlider' type='range' min='.2' max='3' step='0.05' style='width:100%'>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </td>
+                <td style='vertical-align: middle'>
+                  <div>
+                    <table id='kalmanTable' style='border: 1px solid white; border-collapse: collapse; font-size: 20pt'>
+                      <style type='text/css'>
+                        .inputNumber {
+                          font-family: monospace;
+                        }
+                        td {
+                          padding-left: 1em;
+                          padding-right: 1em;
+                        }
+                        table#kalmanTable tr td {
+                          border: 1px solid white;
+                          text-align: right;
+                        }
+                        table#kalmanTable th td {
+                          border: 1px solid white;
+                          text-align: center;
+                        }
+                      </style>
+                      <th> <td style='text-align:center'>$\mu$</td> <td style='text-align:center'>$\sigma$</td></th>
+                      <tr> <td>Forecast</td>
+                        <td><span class='inputNumber' id='fMeanText'></span></td>
+                        <td><span class='inputNumber' id='fStdText'></span></td>
+                      </tr>
+                      <tr> <td>Observation</td>
+                        <td><span class='inputNumber' id='oMeanText'></span></td>
+                        <td><span class='inputNumber' id='oStdText'></span></td>
+                      </tr>
+                      <tr> <td>Analysis</td>
+                        <td><span class='inputNumber' id='aMeanText'></span></td>
+                        <td><span class='inputNumber' id='aStdText'></span></td>
+                      </tr>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <script type='text/javascript'>
+              drawKalmanPlot();
+            </script>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Ensemble Kalman filter</h2>
+            <p>Monte-Carlo approximation of the Kalman filter</p>
+            <div style='font-size:22pt;margin-top:2em'>
+              <ul>
+                <li class='fragment'>Model mean and covariance estimated from an ensemble</li>
+                <li class='fragment'>Converges to the Kalman filter with large ensembles</li>
+                <li class='fragment'>Does not explicitly rely on a linear model</li>
+                <li class='fragment'>Often works when Gaussian assumptions are not satisfied</li>
+              </ul>
+            </div>
+          </section>
+          <section>
+            <h2>2D EnKF Example</h2>
+            <div id='enkfPlot'></div>
+            <div id='enkfControls' style='font-size:18pt'>
+              <table style='width:750px'>
+                <tr>
+                  <td style='vertical-align:middle;text-align:right'>Observation error: </td>
+                  <td style='text-align:center'>
+                    <table>
+                      <tr>
+                        <td style='text-align:center'>X</td>
+                        <td><input id='enkfObsVarX' type='range' min='0.1' max='1.5' step='0.05' style='width:100%'></td>
+                      </tr>
+                      <tr>
+                        <td style='text-align:center'>Y</td>
+                        <td><input id='enkfObsVarY' type='range' min='0.1' max='1.5' step='0.05' style='width:100%'></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style='text-align:right'>Observed variable: </td>
+                  <td style='text-align:center'>
+                    <select id='enkfObsVar'>
+                      <option value='x'>X</option>
+                      <option value='y'>Y</option>
+                      <option value='xy' selected>X and Y</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td style='text-align:right'>Ensemble size: </td>
+                  <td style='text-align: right'>
+                    <input id='enkfNens' type='range' min='3' max='100' style='width:85%'>
+                  </td>
+                </tr>
+                <tr>
+                  <td style='text-align:right'>Forecast correlation: </td>
+                  <td style='text-align:right'>
+                    <input id='enkffCor' type='range' min='0' max='0.8' step='0.05' style='width:70%'>
+                    <button id='enkfSubmitButton'>Reset</button>
+                  </td>
+                </tr>
+                <!--tr><td></td><td style='text-align:right'><button id='enkfSubmitButton'>Reset</td></tr-->
+                </table>
+              </div>
+              <script type='text/javascript'>
+                drawEnKFPlot();
+              </script>
+            </section>
+          </section>
+          <section>
+          <section id='vis3dSection'>
+            <h2>Lorenz model</h2>
+            <div style='font-size:24pt'>
+              <table>
+                <tr>
+                  <td style='vertical-align:top'>
+                    <div style='font-size:20pt;margin-top:5em'>
+                      \[
+                      \begin{array}{rcl}
+                      \dot{x} &amp; = &amp; \sigma ( y - x )\\
+                      \dot{y} &amp; = &amp; x ( \rho - z ) - y\\
+                      \dot{z} &amp; = &amp; xy - \beta z
+                      \end{array}
+                      \]
+                    </div>
+                  </td>
+                  <td>
+                    <div id='vis3d'></div>
+                    <table>
+                      <tr>
+                        <td>$\sigma$</td>
+                        <td><input type='number' min='1', max='20' data-bind='value: params.sigma' style='width:6em'></td>
+                        <td>$\rho$</td>
+                        <td><input type='number' min='5', max='30' data-bind='value: params.rho' style='width:6em'></td>
+                        <td>$\beta$</td>
+                        <td><input type='number' min='1', max='10' data-bind='value: params.beta' style='width:6em'></td>
+                        <td><button type='button' data-bind='click: reset'>Reset</button></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <p style='margin-top:2em'>Known chaotic motion for $\sigma = 10$, $\rho = 28$, $\beta = 8/3$.</p>
+            </div>
+            <script type='text/javascript'>
+              (function () {
+                var retobj = initKFModel(0);
+                makeModelPlot(retobj.model);
+              })();
+            </script>
+          </section>
+          <section id='LorenzKalmanSection'>
+            <h2>Kalman Filter (Lorenz Model)</h2>
+            <div>
+              <div id='kalmanPlotX'>
+              </div>
+              <div id='kalmanPlotY'>
+              </div>
+              <div id='kalmanPlotZ'>
+              </div>
+            </div>
+            <table style='font-size:22pt'>
+              <tr>
+                <td>Data error: </td>
+                <td><input type='range' min='0.5' max='10.0' data-bind='value: err'></td>
+                <td>Observation frequency: </td>
+                <td><input type='range' min='1' max='20' data-bind='value: obsFrequency'></td>
+                <td><button type='button' data-bind='click: reset'>Reset</button></td>
+                <td><button type='button' data-bind='click: pauseFunction'>Pause</button></td>
+              </tr>
+            </table>
+            <script>
+              drawLorenzKalman();
+            </script>
+          </section>
+          <section id='LorenzEnKFSection'>
+            <h2>Ensemble Kalman Filter (Lorenz Model)</h2>
+            <div>
+              <div id='enkfPlotX'>
+              </div>
+              <div id='enkfPlotY'>
+              </div>
+              <div id='enkfPlotZ'>
+              </div>
+            </div>
+            <table style='font-size:22pt'>
+              <tr>
+                <td>Data error: </td>
+                <td><input type='range' min='0.5' max='10.0' data-bind='value: err'></td>
+                <td>Observation frequency: </td>
+                <td><input type='range' min='1' max='10' data-bind='value: obsFrequency'></td>
+                <td><button type='button' data-bind='click: reset'>Reset</button></td>
+                <td><button type='button' data-bind='click: pauseFunction'>Pause</button></td>
+              </tr>
+            </table>
+            <script>
+              drawLorenzEnKF();
+            </script>
+          </section>
+          </section>
+          <section>
+            <section>
+              <h2>Wildfire data assimilation</h2>
+              <div style='margin-top:2em;margin-bottom:1em'>Applying standard techniques is difficult because:</div>
+              <ul style='font-size:22pt;margin-bottom:1em'>
+                <li class='fragment' style='margin-bottom:0em'>Fire models are highly non-linear with non-Gaussian errors</li>
+                <ul class='fragment'>
+                  <li>Errors build up due to unknown spread rate</li>
+                  <li>Burning intensity is generally less important</li>
+                </ul>
+                <li class='fragment'>Artifacts from the assimilation tend to blow up in the model</li>
+                <li class='fragment'>They occur at small scales where data is less available</li>
+              </ul>
+            </section>
+            <section id='oneDFireSection'>
+              <h2>1D test problem</h2>
+              <div style='margin-bottom:2em'>Procedure for generating ensembles:</div>
+              <table>
+                <tr>
+                  <td style='width:30%'>
+                    <div id='fireDescPlotDiv'></div>
+                  </td>
+                  <td style='vertical-align:middle'>
+                    <ol style='font-size:20pt'>
+                      <li class='fragment' data-fragment-index='1' id='chooseShape'>Choose a "fire-like" shape.</li>
+                      <li class='fragment' data-fragment-index='2' id='generatePert'>Generate a random perturbation.</li>
+                      <li class='fragment' data-fragment-index='3' id='translateShape'>Translate the shape horizontally.</li>
+                      <li class='fragment' data-fragment-index='4' id='repeatForAllShapes'>Repeat for each ensemble member.</li>
+                    </ol>
+                  </td>
+                </tr>
+              </table>
+              <div class='fragment' data-fragment-index='5' style='margin-top:2em'>This gives the behavior of a wildfire-like model with uncertain spread rate.</div>
+              <script type='text/javascript'>
+                makeFireDescPlot();
+              </script>
+            </section>
+            <section>
+              <table>
+                <tr>
+                  <td style='width:50%'><div id='enkfFirePlot0'></div></td>
+                  <td style='vertical-align:middle'>
+                    <div style='margin-bottom:1em'>Using the standard approach:</div>
+                    <ul style='font-size:20pt'>
+                      <li class='fragment'>No ability to "move" the ensemble members in space</li>
+                      <li class='fragment'>Non-physical artifacts appear</li>
+                      <li class='fragment'>Large ensembles generally do not help</li>
+                      <li class='fragment'>Works (almost) when the observation occurs at the same location as an ensemble member 
+                      <span class='fragment'>or when the spatial error is small</span></li>
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+              <table id=enkfFireControls' style='font-size:14pt'>
+                <tr>
+                  <td style='padding-left:.8em'>Ensemble size</td>
+                  <td style='padding-right:2em'><input type='range' min='4' max='50' id='enkfFireNens0' style='width:125px !important'></td>
+                  <td>Ensemble spread</td>
+                  <td style='padding-right:2em'><input type='range' min='0.1' max='2' step='0.05' id='enkfFireEnsErr0' style='width:125px !important'></td>
+                  <td>Observation error</td>
+                  <td><input type='range' min='0.1' max='1.5' step='0.05' id='enkfFireObsStd0' style='width:125px'></td>
+                </tr>
+              </table>
+              <script type='text/javascript'>
+                makeFirePlot0();
+              </script>
+            </section>
+            <section>
+              <h2>Spatial transformation of the model</h2>
+              <ul style='font-size:20pt;margin-top:2em'>
+                <li class='fragment'>
+                  There is a one-to-one relationship from the model to its spatial location.
+                </li>
+                <li class='fragment'>We can change the representation before assimilation.</li>
+                <li class='fragment'>After assimilation, we change back to model representation.</li>
+              </ul>
+            </section>
+            <section>
+              <div id='enkfFirePlot'></div>
+              <table id=enkfFireControls' style='font-size:14pt'>
+                <tr>
+                  <td style='padding-left:.8em'>Ensemble size</td>
+                  <td style='padding-right:2em'><input type='range' min='4' max='50' id='enkfFireNens' style='width:125px !important'></td>
+                  <td>Ensemble spread</td>
+                  <td style='padding-right:2em'><input type='range' min='0.1' max='2' step='0.05' id='enkfFireEnsErr' style='width:125px !important'></td>
+                  <td>Observation error</td>
+                  <td><input type='range' min='0.1' max='1.5' step='0.05' id='enkfFireObsStd' style='width:125px'></td>
+                </tr>
+              </table>
+              <script type='text/javascript'>
+                makeFirePlot();
+              </script>
+            </section>
+          </section>
+          <section>
+            <h2>
+              <a href='latex/kitware.pdf'>
+                Morphing EnKF slides
+              </a>
+            </h2>
+          </section>
+        </div>
+      </div>
+
+      <script src="lib/js/head.min.js"></script>
+      <script src="js/reveal.min.js"></script>
+      <script>
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: 'linear', //Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+        math: {
+          mathjax: 'http://cdn.mathjax.org/mathjax/latest/MathJax.js',
+        },
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/math/math.js', async: true }
+      ]
+      });
+      Reveal.addEventListener('fragmentshown', function (event) { document.fireFragmentEvent(event); });
+
+      </script>
+
+    </body>
+  </html>

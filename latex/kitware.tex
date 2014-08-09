@@ -1,0 +1,828 @@
+\documentclass{beamer}
+
+% This file is a solution template for:
+
+% - Giving a talk on some subject.
+% - The talk is between 15min and 45min long.
+% - Style is ornate.
+
+
+
+
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice. 
+
+
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+%\usetheme{Frankfurt}
+  % or ...
+
+  \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+  \setbeamertemplate{navigation symbols}{} 
+  \setbeamertemplate{headline}{}
+
+}
+%
+%\DefineNamedColor{named}{Red}           {cmyk}{0,1,1,0}
+%\DefineNamedColor{named}{Cyan}          {cmyk}{1,0,0,0}
+%\DefineNamedColor{named}{RoyalBlue}     {cmyk}{1,0.50,0,0}
+
+%\usepackage[usenames]{color}
+\usepackage[english]{babel}
+% or whatever
+\usepackage{multirow}
+\usepackage[latin1]{inputenc}
+% or whatever
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage{array}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{picture}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+
+\title
+{Data Assimilation for Wildfire Modeling}
+
+\author % (optional, use only with lots of authors)
+{Jonathan Beezley}
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\institute[CERFACS] % (optional, but mostly needed)
+%{ Advisor: Jan Mandel\\
+%  Department of Mathematical and Statistical Sciences\\
+%  University of Colorado at Denver
+%%  \and
+%%  National Center for Atmospheric Research\\
+%%  Boulder, Colorado
+%% - Use the \inst command only if there are several affiliations.
+%% - Keep it simple, no one is interested in your street address.
+%}
+
+\date % (optional)
+{January 16, 2014}
+
+\subject{Talks}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+%\pgfdeclareimage[height=0.5cm]{university-logo}{ucdlogo}
+%\logo{\pgfuseimage{university-logo}}
+
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%\AtBeginSubsection[]
+%{
+  %\begin{frame}<beamer>{Outline}
+    %\tableofcontents[currentsection,currentsubsection]
+  %\end{frame}
+%}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+%\beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\section{Data assimilation}
+
+\begin{frame}
+\frametitle{Ensemble data assimilation}
+Purpose: Improve a model simulation by incorporating real data%
+\begin{itemize}
+\item
+ $x^f$: forecast (prior) model state
+\item
+ $x^a$: analysis (posterior) model state
+ \item
+  $y$: data
+ \item
+  $H(x^f)$: simulated data (what the data would be if $x^f$ represented the truth)
+\end{itemize}
+In a Bayesian sense, $p(x^a)=p(x^f|y)\propto p(x^f)p(y|x^f)$.
+Ensemble data assimilation methods represent the distributions with matrices 
+$X^f$ and $X^a$ having columns made up of perturbed model states.
+\end{frame}
+
+
+%\begin{frame}{Data Assimilation Algorithms} 
+%\begin{itemize}
+%\item Kalman Filter:
+%\begin{itemize}
+%\item Represents distributions as mean/covariance.
+%\item Produces exact filtering distribution.
+%\item Assumes: linear model, Gaussian distributions, and linear observation function.
+%\end{itemize}
+%\item Ensemble Kalman Filter:
+%\begin{itemize}
+%\item Represents distributions by an ensemble.
+%\item Approximates the Kalman filter using ensemble mean/covariance.
+%\item Relies on the same assumptions as the Kalman filter.
+%\end{itemize}
+%\item Particle Filter:
+%\begin{itemize}
+%\item Approximates an arbitrary density with a weighted ensemble.
+%\item Weights are multiplied by data likelihood.  
+%\end{itemize}
+%\end{itemize}
+%\end{frame}
+
+\begin{frame}%{The Ensemble Kalman Filter}
+  % - A title should summarize the slide in an understandable fashion
+  %   for anyone how does not follow everything on the slide itself.
+  
+ %add citation to evansen
+ %maybe describe model states as columns
+%\frame
+%{
+  \frametitle{Ensemble Kalman Filter (EnKF)}
+  Uses an ensemble of solutions $\left\{u_k\right\}_{k=1}^N$ to estimate model errors.\\
+  \vspace{.5cm}
+  Forecast step:
+\begin{eqnarray*}
+u_k &\leftarrow & \mathcal{M}(u_k)
+\end{eqnarray*}
+
+Analysis step:
+  \begin{eqnarray*}
+K_N & \leftarrow & Q_N H^{\mathrm{T}}\left(  HQ_N H^{\mathrm{T}}+R\right)
+^{-1}\\
+u_k&\leftarrow &u_k+ K_N \left(  d+e_k-H u_k\right), \quad e_k\sim\mathcal{N}(0,R)
+\end{eqnarray*}
+%\hrule
+%\vspace{.5cm}
+%The forecast covariance ($Q$) is approximated by the sample covariance ($Q_N$).  But, the sample covariance is just an
+%approximation; \alert{why not use a different approximation?}
+
+%}
+\end{frame}
+
+\begin{frame}
+\frametitle{Real fire image data}
+%\begin{figure}[h]
+
+\begin{center}
+$\quad ~$ Raw image$~\qquad\qquad$Post-processed image\\
+\includegraphics[width=3.5in]{eps/vodacek.png}\\
+{\footnotesize Vodacek et al 2004}
+\end{center}
+
+We would like to use infrared imagery from aircraft to correct errors in the fire location.  Other
+similar data is available from satellite imagery, but at much lower resolution.
+%\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Testing the EnKF on a wildfire model}
+A major component of the error in wildfire modeling is determining the 
+\alert{position} of the fireline.  We want to test the behavior of the EnKF
+under these conditions.\\
+\vspace{.25in}
+\hrule
+\vspace{.25in}
+Test procedure:
+\begin{itemize}
+\item Generate an ensemble by translating a single solution of the PDE model
+randomly in space.
+\item Use as data, a the temperature of a solution that is 
+intentionally shifted away from the ensemble.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}%
+\frametitle{An example in 1D: filter degeneracy}%
+\vspace{-.3in}
+\begin{columns}%
+\column[t]{.35\textwidth}%
+\begin{center}Forecast ensemble\end{center}
+\includegraphics[height=.9in]{eps/tprior}
+\begin{center}Analysis ensemble\end{center}
+\includegraphics[height=.9in]{eps/tenkfeye}
+\column[t]{.65\textwidth}
+\vspace{.1in}
+\begin{itemize}
+\item
+Ensemble size, $N=10$
+\item
+Forecast ensemble generated by translating by $N(0,\sigma^2)$, $\sigma^2=200$ $m^2$
+\item
+Identity observation function, $H=I$
+\item
+Data covariance, $R=10\mbox{tr}(P^f)I$
+\end{itemize}
+\vspace{.1in}
+\begin{itemize}
+\item
+{\color{cyan}Cyan}: ensemble
+\item
+{\color{blue}Blue}: last ensemble member
+\item
+{\color{red}Red}: data
+\end{itemize}
+\vspace{.1in}
+\begin{itemize}
+\item
+$\mbox{tr}(P^f)=4.7\times 10^6$
+\item
+$\mbox{tr}(P^a)=4.8\times 10^2$
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}%
+\frametitle{An example in 2D: non-physical results}%
+\vspace{-.3in}
+\begin{columns}%
+\column[t]{.33\textwidth}%
+\begin{center}Forecast ensemble\end{center}
+\includegraphics[height=1in]{eps/fire2d_prior}
+\column[t]{.33\textwidth}%
+\begin{center}Data\end{center}
+\includegraphics[height=1.1in]{eps/fire2d_data}
+\column[t]{.33\textwidth}%
+\begin{center}Analysis ensemble\end{center}
+\includegraphics[height=1in]{eps/fire2d_post}
+\end{columns}
+\vspace{.1in}
+\begin{itemize}
+\item
+Forecast ensemble generated by random spatial perturbations of the displayed image
+\item
+Analysis ensemble displayed as a superposition of semi-transparent images of each ensemble member
+\item
+Identity observation function, $H=I$
+\item
+Data variance, $100$ $K^2$
+\end{itemize}
+\end{frame}
+
+%\section{Image registration}
+
+%\subsection{Spatial errors}
+
+\begin{frame}
+\frametitle{What went wrong?}
+\begin{columns}%
+\column[t]{.6\textwidth}%
+The Kalman update formula can be expressed as 
+\[
+X^a=A(X^f)^T,
+\]
+so $X^a_i\in\mbox{span}\{X^f\}$, where the analysis ensemble is made of \alert{linear combinations} of the forecast.
+\vspace{.2in}
+\column[t]{.4\textwidth}%
+\begin{figure}[h]
+\includegraphics[height=1in]{eps/lincomb}
+\end{figure}
+\end{columns}
+\hrule
+\vspace{.2in}
+Need to represent the \alert{position} of the fire as well as its \alert{shape}.
+\end{frame}
+
+\begin{frame}
+\frametitle{Representing spatial error, in 1D}
+
+\begin{columns}%
+\column[t]{.35\textwidth}%
+\vspace{-.5in}
+%\begin{center}Forecast ensemble\end{center}
+\begin{figure}[h]
+\includegraphics[height=1.25in]{eps/tprior}\\
+\vspace{.05in}
+%\begin{center}Analysis ensemble\end{center}
+\includegraphics[height=1.25in]{eps/tenkfmorph}
+\end{figure}
+\column[t]{.65\textwidth}
+\vspace{-.2in}
+\begin{block}{Define a non-linear transformation}
+$\mathcal{T}(u_i)=\mbox{argmax}\{u_0\}-\mbox{argmax}\{u_i\}=t_i$\\
+$\mathcal{T}^{-1}(t_i)=u_0(x+t_i)=u_i$
+\end{block}
+\begin{itemize}
+\item
+$t_i$, translation of ensemble member $i$ from a ``reference'' state $u_0$
+\item
+run the EnKF with scalar ensemble $t_i$ and data $\mathcal{T}(Y)$
+\item
+recover analysis ensemble by applying the inverse transformation
+\item
+$t_i\sim \mathcal{N}(m,\sigma)$, by original construction of forecast ensemble
+\end{itemize}
+\end{columns}
+\begin{center}But what about 2D?\end{center}
+\end{frame}
+
+
+
+\section{The morphing EnKF}
+
+\begin{frame}
+\frametitle{Overview of the morphing EnKF}
+\begin{center}
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt, scale=1]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=8em, text centered, rounded corners, minimum height=4em, scale=1]
+\tikzstyle{tblock} = [rectangle, draw, fill=yellow!20, 
+    text width=8em, text centered, rounded corners, minimum height=4em, scale=1]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em, text width=4.5em, text centered, scale=1]
+\tikzstyle{refs} = [draw, ellipse,fill=green!20, node distance=3cm,
+    minimum height=2em, text width=4.5em, text centered, scale=1]
+\tikzstyle{inits} = [draw, ellipse,fill=green!20, node distance=3cm,
+    minimum height=2em, text width=4.5em, text centered, scale=1]
+{\tiny
+\begin{tikzpicture}[node distance = 3cm, auto, scale=1]
+\node [block] (model) {Model};
+\node [tblock, right of=model] (ftrans) {Forward\\transformation};
+\node [block, right of=ftrans] (enkf) {EnKF};
+\node [tblock, above of=enkf, yshift=-1.5cm] (dtrans) {Data\\transformation};
+\node [cloud, left of=dtrans, xshift=1cm] (data) {Data};
+\node [refs, above of=ftrans] (ref) {Reference};
+\node [tblock, above of=ref, yshift=-1.5cm] (itrans) {Inverse\\transformation};
+\node [inits, above of=itrans, yshift=-1.75cm] (init) {Random Fields};
+%\node [right of=ftrans] (rftrans) {};
+\path [line] (model) -- (ftrans);
+\path [line] (ftrans) -- (enkf);
+\path [line] (enkf) -| ++(1.5cm,0cm) |- (itrans);
+\path [line] (data) -- (dtrans);
+\path [line] (itrans) -| ++(-4.5cm,-3cm) |- (model);
+\path [line] (dtrans) -- (enkf);
+\path [line] (ref) -- (ftrans);
+\path [line] (ref) -| (dtrans);
+\path [line] (model) |- (ref);
+\path [line] (ref) -- (itrans);
+\path [line] (init) -- (itrans);
+\draw (model) ++(-1.5cm,2.75cm) node[anchor=west] {$\left[X^a\right]$};
+\draw (model) ++(1.5cm,0cm) node[anchor=south] {$\left[X^f\right]$};
+\draw (ftrans) ++(1.5cm,0cm) node[anchor=south] {$\left[T^f;R^f\right]$};
+\draw (ref) ++(0cm,.75cm) node[anchor=west] {$u_0$};
+\draw (dtrans) ++(0cm,.75cm) node[anchor=east] {$u_0$};
+\draw (ftrans) ++(0cm,.75cm) node[anchor=east] {$u_0$};
+\draw (enkf) ++(1.5cm,2.75cm) node[anchor=east] {$\left[T^a;R^a\right]$};
+\draw (data) ++(.85cm,0cm) node[anchor=south] {$d$};
+\draw (enkf) ++(0cm,.75cm) node[anchor=west] {$\left[T^d;r^d\right]$};
+\draw (init) ++(0cm,-.6cm) node[anchor=west] {$\left[T^0;r^0\right]$};
+\draw (ref) ++(-1.75cm,0cm) node[anchor=south] {Central solution};
+\end{tikzpicture}}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Morphing functions}
+\begin{itemize}
+\item
+A \alert{morphing function}, $(I+T):\Omega\rightarrow\Omega$ defines a spatial perturbation of an image, $u$.  
+\item
+It is \alert{invertible} when $(I+T)^{-1}$ exists.
+\item
+An image $u$ ``morphed'' by $T$ is defined as $\tilde{u}(x)=u(x+Tx)=u\circ(I+T)(x)$.
+\end{itemize}
+
+
+\rule{\textwidth}{1pt}
+\begin{table}[h]
+\begin{tabular}{ccccc}
+%\column{.25\textwidth}
+$u$&$\circ$&$I+T$&$=$&$\tilde{u}$\\
+%\begin{figure}[h]
+\includegraphics[height=1.in]{eps/morphorig}&&
+%\end{figure}&skdf&
+%\column{.125\textwidth}
+%\column{.25\textwidth}
+%\begin{figure}[h]
+\includegraphics[height=1.in]{eps/morphfun}&&
+%\end{figure}&sdfj&
+%\column{.25\textwidth}
+%\[\tilde{u}\]
+%\begin{figure}[h]
+\includegraphics[height=1.in]{eps/morphtrans}
+%\end{figure}
+
+\end{tabular}
+\end{table}
+\end{frame}
+
+%\subsection{Registration minimization}
+
+\begin{frame}
+\frametitle{Image registration}
+Goal: Given two images $u$ and $v$, find an invertible morphing function, $T$, which makes $u\circ(I+T)\approx v$, while ensuring that $T$ is ``small'' as possible.
+\begin{block}{Image registration problem}
+\[
+J_{u\rightarrow v}(T)=||u\circ(I+T)-v||_\mathcal{R}+||T||_\mathcal{T}\rightarrow\min_T
+\]
+\end{block}
+\begin{itemize}
+\item
+$||r||_\mathcal{R}=c_\mathcal{R}||r||_2$
+\item
+$||T||_\mathcal{T}=c_\mathcal{T}||T||_2+c_\nabla||\nabla T||_2$
+\item
+$c_\mathcal{R}$, $c_\mathcal{T}$, and $c_\nabla$ are treated as optimization parameters
+\end{itemize}
+%\begin{block}{Morphing ensemble transformation}
+
+%$\mathcal{T}(u_i)=\mbox{arg}\min_{T}\left\{ ||u_0\circ(I+T)^{-1}-u_i||_\mathcal{R}+||T||_\mathcal{M}\right\}$\\
+%$\mathcal{T}^{-1}([T_i,r_i])=$
+%\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Minimizing the objective function}
+\begin{columns}[t]
+\column{.4\textwidth}
+\vspace{-.3in}
+\begin{figure}[h]
+\includegraphics[height=1in]{eps/reggrad}
+\end{figure}
+\begin{center}$\nabla J_{u\rightarrow v}(0)=0$!!!\end{center}
+\column{.6\textwidth}
+Problems with minimization:
+\begin{itemize}
+\item{Highly nonlinear}
+\item{Many local minima}
+\item{Need an automated procedure}
+\item{Needs to be done quickly}
+\end{itemize}
+\end{columns}
+\vspace{.1in}
+\rule{\textwidth}{1pt}
+\vspace{.1in}
+\begin{center}Steepest descent methods \alert{do not work} in general.\end{center}
+\end{frame}
+
+{\small
+\begin{frame}
+\frametitle{Summary of the algorithm}
+Finding an acceptable solution requires a combination of standard techniques:
+\begin{itemize}
+\item \alert{Grid refinement}: Solve the problem only approximately at first, then refine
+the solution on increasingly smaller sub-domains.
+\item \alert{Sampling}:  Probe the feasibility region to escape local minima.
+\item \alert{Image smoothing}: Smooth out sharp features of the images.
+\item \alert{Levenberg-Marquardt}: Least-square descent method designed for nonlinear problems.
+\end{itemize}
+\end{frame}}
+
+\begin{frame}
+\begin{center}
+\begin{columns}[c]
+%\column{.25\textwidth}
+\column{.3\textwidth}
+\[u_0\]
+\includegraphics[width=1.25in]{eps/mtrans_u0}
+\column{.7\textwidth}
+\begin{block}{Morphing transformation}{\small
+forward: $\mathcal{M}_{u_0}[u_i]=\left\{\begin{array}{l}
+T_i,\quad\mbox{from registration}\\
+r_i=u_i\circ(I+T_i)^{-1}-u_0
+\end{array}\right.$\\
+\vspace{.1in}
+inverse: $\mathcal{M}_{u_0}^{-1}[T_i;r_i]=(u_0+r_i)\circ(I+T_i)$}
+\end{block}
+\end{columns}
+\end{center}
+\hspace{-.3in}\begin{tabular}{ccccccc}
+&$[u_i]$&$\overset{u_0}{\longleftrightarrow}$&$[T_i$&;&$r_i]$&\\
+\\
+&\includegraphics[width=1.25in]{eps/mtrans_u}&&
+\input{eps/mtrans_t.tikz}&&\includegraphics[width=1.25in]{eps/mtrans_r}&
+\end{tabular}
+\end{frame}
+
+\begin{frame}
+%\frametitle{The morphing transformation}
+%\vspace{-.1in}
+Linear combinations of transformed states consist of a single fire moving in space.
+\begin{figure}[h]
+\begin{tabular}{c|ccc|c}
+$u_0$&\multicolumn{3}{c|}{Intermediate states $\mathcal{M}_{u_0}^{-1}
+[\lambda T_i,\lambda r_i]$}&$u_i$ \\
+\fbox{\includegraphics[height=.55in]{eps/lc_5}}&
+\fbox{\includegraphics[height=.55in]{eps/lc_good_4}}&
+\fbox{\includegraphics[height=.55in]{eps/lc_good_3}}&
+\fbox{\includegraphics[height=.55in]{eps/lc_good_2}}&
+\fbox{\includegraphics[height=.55in]{eps/lc_1}} \\
+$\lambda=0$&$1/4$&$1/2$&$3/4$&$1$ 
+\end{tabular}
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+%\frametitle{An aside}
+\vspace{-.1in}
+Why use $r=u\circ(I+T)^{-1}-u_0$ instead of $\tilde{r}=u-u_0\circ(I+T)$?\\
+\vspace{-.1in}
+\begin{columns}[c]
+\column{.2\textwidth}
+%\vspace{1in}
+\begin{align*}
+T(x)&=1\\
+{\color{blue}u(x)}&=\varphi(x)\\
+{\color{red}u_0(x)}&=2\varphi(x+1)
+\end{align*}
+\column{.4\textwidth}
+{\scriptsize
+\begin{align*}
+\tilde{u}_\lambda(x) &= \varphi(x+\lambda)+
+\underbrace{\lambda\varphi(x+1)}_{\mbox{``residual''}}
+\end{align*}
+\begin{center}
+\input{eps/res1d_bad.tikz}
+\end{center}}
+\column{.4\textwidth}
+%\begin{center}
+%\vspace{-.2in}
+%\begin{flushright}
+{\scriptsize
+\begin{align*}
+u_\lambda(x)&= \varphi(x+\lambda)
++\underbrace{\lambda\varphi(x+\lambda)}_{\mbox{``residual''}}
+\end{align*}
+\begin{center}
+\input{eps/res1d_good.tikz}
+\end{center}}
+%\end{flushright}
+%\end{center}
+\end{columns}
+\vspace{.2in}
+\begin{center}
+$\tilde{u}_\lambda$: the residual component remains \alert{fixed} in space.  \\
+$u_\lambda$: the residual component \alert{moves} with the image.
+\end{center}
+\end{frame}
+
+\begin{frame}
+\[\tilde{\mathcal{M}}_{u_0}^{-1}[\lambda T,\lambda \tilde{r}]=u_0\circ(I+\lambda T)+
+\overbrace{\lambda (u-u_0\circ(I+T))}^{\mbox{``residual''}}
+\]
+\vspace{-.5in}
+\begin{figure}[h]
+\begin{tabular}{c|ccc|c}
+$\lambda=0$&$1/4$&$1/2$&$3/4$&$1$ \\
+\includegraphics[height=.6in]{eps/lc_5}&
+\includegraphics[height=.6in]{eps/lc_bad_4}&
+\includegraphics[height=.6in]{eps/lc_bad_3}&
+\includegraphics[height=.6in]{eps/lc_bad_2}&
+\includegraphics[height=.6in]{eps/lc_1}\\
+\includegraphics[height=.6in]{eps/lc_5}
+&\includegraphics[height=.6in]{eps/lc_good_4}&
+\includegraphics[height=.6in]{eps/lc_good_3}&
+\includegraphics[height=.6in]{eps/lc_good_2}&
+\includegraphics[height=.6in]{eps/lc_1}
+\end{tabular}
+\end{figure}
+\[\mathcal{M}_{u_0}^{-1}[\lambda T,\lambda r]=
+u_0\circ (I+\lambda T)+\underbrace{\lambda (u\circ (I+ T)^{-1}-u_0)\circ (I+\lambda T)}
+_{\mbox{``residual''}}\]
+\end{frame}
+
+\begin{frame}
+\begin{columns}[t]
+\column{.4\textwidth}
+\vspace{-.4in}
+\[
+\left[
+\begin{array}{c}
+u_1\\
+u_2\\
+\vdots\\
+u_n
+\end{array}
+\right]\leftrightarrow
+\left[
+\begin{array}{c}
+T\\
+r_1\\
+r_2\\
+\vdots\\ 
+r_n
+\end{array}
+\right]=\left[\begin{array}{c}T\\R\end{array}\right]
+\]
+\column{.6\textwidth}
+For multi-variable states, register only one variable and use the registered morphing function to create a residual for each variable.
+\end{columns}
+\vspace{.2in}
+\rule{\textwidth}{1pt}
+\vspace{.2in}
+\begin{columns}[t]
+\column{.65\textwidth}
+For $3D$ variables apply morphing function to each horizontal plane:  $u_i(:,:,k)$.
+\column{.35\textwidth}
+\vspace{-.5in}
+\begin{figure}[h]
+\includegraphics[height=1in]{eps/morph3d}
+\end{figure}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Data transformation}
+%\begin{columns}[c]
+%\column{.5\textwidth}
+\begin{tabular}{l|c|c|}
+&Original&Transformed\\
+Data&
+$d$&$\left[T_d;r_d\right]$\\
+&&\\
+Observation function&
+$h:
+\left[
+\begin{array}{c}
+u_1\\
+\vdots\\
+u_n
+\end{array}
+\right]\mapsto \left[u_1\right]$&$\tilde{h}:
+\left[
+\begin{array}{c}
+T\\
+r_1\\
+\vdots\\
+r_n
+\end{array}
+\right]\mapsto \left[\begin{array}{c}T\\r_1\end{array}\right]$
+\end{tabular}
+\vspace{.1in}
+\begin{itemize}
+\item Data undergoes the same transformation, but only contains the registration variable.
+\item Observation function is modified to act on the morphed ensemble states.
+\item Can be extended to more general observations, but limited to ``image-like'' data that is a point wise function of the model variables.
+\end{itemize}
+%\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Initial ensemble}
+\begin{columns}[c]
+\column{.8\textwidth}
+\begin{block}{Random Fields}
+{\footnotesize
+\[s_{j}\propto\mathcal{R}\mathrm{e}\left\{
+\sum_{k=0}^{n-1}(c_{k}+id_{k})\left(\frac{k}{h}\right)^{-1-\alpha}
+e^{2\pi i kj/n} \right\}\]
+\[c_k,d_k\sim \mathcal{N}(0,1), \mbox{independent}\]}\end{block}
+\begin{enumerate}
+\item Choose a reference solution, $u_0$.
+\item Generate random morphing function, $T$, out of random fields.
+\item Generate random residuals, $R$, out of random fields for each variable.
+\item $X^0_i\leftarrow \mathcal{M}^{-1}_{u_0}([T,R])$
+\end{enumerate}
+\column{.2\textwidth}
+\begin{tabular}{c}
+\input{eps/srf_alpha0.tikz}\\
+\input{eps/srf_alpha1.tikz}\\
+\input{eps/srf_alpha2.tikz}
+\end{tabular}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Morphing Ensemble Kalman Filter}
+\begin{center}
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt, scale=1]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=8em, text centered, rounded corners, minimum height=4em, scale=1]
+\tikzstyle{tblock} = [rectangle, draw, fill=yellow!20, 
+    text width=8em, text centered, rounded corners, minimum height=4em, scale=1]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em, text width=4.5em, text centered, scale=1]
+\tikzstyle{refs} = [draw, ellipse,fill=green!20, node distance=3cm,
+    minimum height=2em, text width=4.5em, text centered, scale=1]
+\tikzstyle{inits} = [draw, ellipse,fill=green!20, node distance=3cm,
+    minimum height=2em, text width=4.5em, text centered, scale=1]
+{\tiny
+\begin{tikzpicture}[node distance = 3cm, auto, scale=1]
+\node [block] (model) {Model};
+\node [tblock, right of=model] (ftrans) {Forward\\transformation};
+\node [block, right of=ftrans] (enkf) {EnKF};
+\node [tblock, above of=enkf, yshift=-1.5cm] (dtrans) {Data\\transformation};
+\node [cloud, left of=dtrans, xshift=1cm] (data) {Data};
+\node [refs, above of=ftrans] (ref) {Reference};
+\node [tblock, above of=ref, yshift=-1.5cm] (itrans) {Inverse\\transformation};
+\node [inits, above of=itrans, yshift=-1.75cm] (init) {Random Fields};
+%\node [right of=ftrans] (rftrans) {};
+\path [line] (model) -- (ftrans);
+\path [line] (ftrans) -- (enkf);
+\path [line] (enkf) -| ++(1.5cm,0cm) |- (itrans);
+\path [line] (data) -- (dtrans);
+\path [line] (itrans) -| ++(-4.5cm,-3cm) |- (model);
+\path [line] (dtrans) -- (enkf);
+\path [line] (ref) -- (ftrans);
+\path [line] (ref) -| (dtrans);
+\path [line] (model) |- (ref);
+\path [line] (ref) -- (itrans);
+\path [line] (init) -- (itrans);
+\draw (model) ++(-1.5cm,2.75cm) node[anchor=west] {$\left[X^a\right]$};
+\draw (model) ++(1.5cm,0cm) node[anchor=south] {$\left[X^f\right]$};
+\draw (ftrans) ++(1.5cm,0cm) node[anchor=south] {$\left[T^f;R^f\right]$};
+\draw (ref) ++(0cm,.75cm) node[anchor=west] {$u_0$};
+\draw (dtrans) ++(0cm,.75cm) node[anchor=east] {$u_0$};
+\draw (ftrans) ++(0cm,.75cm) node[anchor=east] {$u_0$};
+\draw (enkf) ++(1.5cm,2.75cm) node[anchor=east] {$\left[T^a;R^a\right]$};
+\draw (data) ++(.85cm,0cm) node[anchor=south] {$d$};
+\draw (enkf) ++(0cm,.75cm) node[anchor=west] {$\left[T^d;r^d\right]$};
+\draw (init) ++(0cm,-.6cm) node[anchor=west] {$\left[T^0;r^0\right]$};
+\draw (ref) ++(-1.75cm,0cm) node[anchor=south] {Central solution};
+\end{tikzpicture}}
+\end{center}
+\end{frame}
+
+%\begin{frame} 
+%\frametitle{Morphing transformation code}
+%Programmed in Fortran 90, producing a public interface library and three binaries.  Uses netcdf formatted files for data i/o.
+%\begin{enumerate}
+%\item{Ensemble initialization: Takes an input model state to be used as a reference state, and creates a random ensemble from it.}
+%\item{Forward transformation: Takes an input ensemble from the model and transforms into the morphing representation.}
+%\item{Inverse transformation: Takes an input ensemble from the EnKF and transforms back into the model representation.}
+%\end{enumerate}
+%\end{frame}
+
+\begin{frame}
+%\frametitle{Computational results}
+%\vspace{-.1in}
+\begin{figure}[t!]
+\begin{center}%
+\begin{tabular}
+[c]{cc}%
+\includegraphics[width=1.3in]{eps/da_data}  &
+\includegraphics[width=1.3in]{eps/da_fireprofile}\\
+Data&Reference\\
+%(a) & (b)\\
+\includegraphics[width=1.3in]{eps/da_prior} &
+\includegraphics[width=1.3in]{eps/da_posterior}\\
+Forecast Ensemble&Analysis Ensemble
+%(c) & (d)
+\end{tabular}
+\newline
+\end{center}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}
+%\frametitle{Computational results}
+\vspace{-.1in}
+\begin{figure}[t!]
+\begin{center}%
+\begin{tabular}
+[c]{cc}%
+\includegraphics[width=1.8in]{eps/wrf_obs}  &
+\includegraphics[width=1.8in]{eps/wrf_comp}\\
+Data&Reference\\
+%(a) & (b)\\
+\includegraphics[width=1.8in]{eps/wrf_std} &
+\includegraphics[width=1.8in]{eps/wrf_post}\\
+Standard EnKF&Morphing EnKF
+%(c) & (d)
+\end{tabular}
+\newline
+\end{center}
+
+\end{figure}
+
+\end{frame}
+
+\end{document}

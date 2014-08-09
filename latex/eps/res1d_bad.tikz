@@ -1,0 +1,43 @@
+\begin{tikzpicture}
+
+\pgfplotsset{every axis grid/.style={style=dotted}}
+
+
+\begin{axis}[%
+name=main plot,%
+axis on top,%
+width=1.2in,%
+scale only axis,%
+xtick={6,10,14},%
+xticklabels={$-1$,$-\lambda$,$0$},%
+ytick={0,0.5,1,2},%
+yticklabels={$0$,$\lambda$,$1$,$2$},%
+xmajorgrids,ymajorgrids,enlargelimits=false]%
+
+\addplot [%
+color=red,%
+solid,%
+line width=0.5pt%
+] coordinates{
+ (5,0) (6,2) (7,0)
+};
+
+\addplot [%
+color=blue,%
+solid,%
+line width=0.5pt%
+] coordinates{
+ (13,0) (14,1) (15,0)
+};
+
+\addplot [%
+color=black,%
+solid,%
+line width=0.5pt%
+] coordinates{
+(1,0) (5,0) (6,0.5) (7,0) (9,0) (10,1) (11,0) (20,0)
+};
+
+\end{axis}
+
+\end{tikzpicture}
